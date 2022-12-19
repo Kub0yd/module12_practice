@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@Kub0yd 
+Kub0yd
+/
+module12_practice
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+module12_practice/Task1.php /
+@Kub0yd
+Kub0yd add functions
+Latest commit 1af3b7e 4 hours ago
+ History
+ 1 contributor
+138 lines (126 sloc)  4.44 KB
+
 <?php
 $example_persons_array = [
     [
@@ -118,10 +148,20 @@ function getGenderFromName($fullName){
 };
 
 function getGenderDescription ($namesArr){
-
+    $genders = array();
     foreach($namesArr as $value){
-
+        $genders[] = getGenderFromName($value["fullname"]);
+        
     }
+    $mansArr = array_filter($genders, function($gender) {
+        return array_values($gender)  === 1;
+    });
+    $womansArr = array_filter($genders, function($gender) {
+        return array_values($gender)  === -1;
+    });
+    $unknown = array_filter($genders, function($gender) {
+        return array_values($gender)  === 0;
+    });
     echo <<<HEREDOCLETTER
     Гендерный состав аудитории:
     ---------------------------
@@ -129,10 +169,9 @@ function getGenderDescription ($namesArr){
     Женщины - 35.5%
     Не удалось определить - 10.0%
     HEREDOCLETTER;
+    
+};
 
-}
-
-    echo '<pre>';
-    print_r($gender);
-    echo '</pre>';
-
+    // echo '<pre>';
+    // print_r($gender);
+    // echo '</pre>';
