@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@Kub0yd 
-Kub0yd
-/
-module12_practice
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-module12_practice/Task1.php /
-@Kub0yd
-Kub0yd add functions
-Latest commit 1af3b7e 4 hours ago
- History
- 1 contributor
-138 lines (126 sloc)  4.44 KB
-
 <?php
 $example_persons_array = [
     [
@@ -80,10 +50,11 @@ $fullnameParts = array();
 $fullName = array();
 $shortName = array();
 $gender = array();
-
+//Пример заполнения массива функцией getPartsFromFullname
 foreach ($example_persons_array as $value) {
     $fullnameParts[] = getPartsFromFullname ($value["fullname"]); 
 };
+//Пример заполнения массива функцией getPartsFromFullname
 foreach ($fullnameParts as $value) {
     $fullName[] = getFullnameFromParts($value["surname"], $value["name"], $value["patronymic"]); 
 };
@@ -93,6 +64,7 @@ foreach ($fullName as $value) {
 foreach ($fullName as $value) {
     $gender[] = getGenderFromName($value); 
 };
+
 
 function getPartsFromFullname ($fullname) {        //получает на вход строку ФИО
     //вводим новый массив для создания будущего ассоциативного массива
@@ -146,32 +118,68 @@ function getGenderFromName($fullName){
     //возврат значений по суммарному количеству признаков
     return $genderIs <=> 0;  
 };
-
 function getGenderDescription ($namesArr){
-    $genders = array();
+    $genders = array();                                         //массив для сбором всех значений пола входящего массива
     foreach($namesArr as $value){
-        $genders[] = getGenderFromName($value["fullname"]);
-        
-    }
-    $mansArr = array_filter($genders, function($gender) {
-        return array_values($gender)  === 1;
+        $genders[] = getGenderFromName($value["fullname"]);     //заполняем массив получая пол каждого имени входящего массива
+    };
+    $mansArr = array_filter($genders, function($gender) {       //сбор значений мужского пола
+        return $gender  === 1;
     });
-    $womansArr = array_filter($genders, function($gender) {
-        return array_values($gender)  === -1;
+    $womansArr = array_filter($genders, function($gender) {     //сбор значений женского пола
+        return $gender  === -1;
     });
-    $unknown = array_filter($genders, function($gender) {
-        return array_values($gender)  === 0;
+    $unknown = array_filter($genders, function($gender) {       //сбор значений неопределенного пола
+        return $gender  === 0;
     });
-    echo <<<HEREDOCLETTER
+    $manPerc = round(count($mansArr)*100/count($genders), 2);
+    $womanPerc = round(count($womansArr)*100/count($genders), 2);
+    $unknowPerc = round(count($unknown)*100/count($genders), 2);
+    $info = <<<HEREDOCLETTER
     Гендерный состав аудитории:
     ---------------------------
-    Мужчины - 55.5%
-    Женщины - 35.5%
-    Не удалось определить - 10.0%
-    HEREDOCLETTER;
+    Мужчины - $manPerc%
+    Женщины - $womanPerc%
+    Не удалось определить - $unknowPerc%
+HEREDOCLETTER;
+    return $info;
+    
+};
+function getPerfectPartner($surname, $name, $patronymic, $personsArray){
+
+    $surname = mb_convert_case($surname, MB_CASE_TITLE, "UTF-8");
+    $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+    $patronymic = mb_convert_case($patronymic, MB_CASE_TITLE, "UTF-8");
+    $fullname = getFullnameFromParts($surname, $name, $patronymic);
+    
+    $fullnameGender = getGenderFromName($fullname);
+
+    $randPerson = ($personsArray[rand(0, count($personsArray)-1)])['fullname'];
+    $randPersonGender = getGenderFromName($randPerson);
+
+    while ($fullnameGender !== - $randPersonGender){
+        $randPerson = ($personsArray[rand(0, count($personsArray)-1)])['fullname'];
+        $randPersonGender = getGenderFromName($randPerson);
+    };
+    $shortFullname = getShortName($fullname);
+    $shortNameRandPerson = getShortName($randPerson);
+
+    $randNumb = randfloat(50,100, 100);
+    $result= <<<HEREDOCLETTER
+    $shortFullname + $shortNameRandPerson = 
+    ♡ Идеально на $randNumb% ♡
+HEREDOCLETTER;
+
+    return $result;
     
 };
 
-    // echo '<pre>';
-    // print_r($gender);
-    // echo '</pre>';
+function randfloat ($first_no, $last_no,$mul){
+    
+    return mt_rand($first_no * $mul,$last_no * $mul)/$mul;
+};
+
+
+echo '<pre>';
+print_r (getPerfectPartner('Егоров','Вячеслав','Сергеевич',$example_persons_array ));
+echo '</pre>';
