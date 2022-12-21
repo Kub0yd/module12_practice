@@ -91,7 +91,7 @@ function getFullnameFromParts($surname, $name, $patronymic) {
     return $fullname;
 }; 
 
-//возвращающую строку вида «Иван И.», где сокращается фамилия и отбрасывается отчество
+//возвращает строку вида «Иван И.», где сокращается фамилия и отбрасывается отчество
 function getShortName($fullName) {
     $parts = getPartsFromFullname ($fullName);  //получаем разделенное на элементы имя в виде массива
     $namesFirstLetter = mb_substr($parts['name'], 0, 1);    //вводим отдельную переменную для первой буквы имени (просто для собственного удобства)
