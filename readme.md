@@ -1,6 +1,7 @@
 # ПРАКТИКА (HW-02)
 Разработка в качестве домашнего задания курса **"Веб-разработчик"** на платформе [Skillfactory](https://skillfactory.ru/).
 
+[Task1](./Task1.php) - основной файл с кодом
 ## Быстрый переход к результату задания:
 1. [getPartsFromFullname](https://github.com/Kub0yd/module12_practice/blob/37be12f83904d936277db826cb43c7842375cae7/Task1.php#L76-L87) - Возвращает как результат массив из трёх элементов с ключами ‘name’, ‘surname’ и ‘patronomyc’
 2. [getFullnameFromParts](https://github.com/Kub0yd/module12_practice/blob/37be12f83904d936277db826cb43c7842375cae7/Task1.php#L89-L92) - принимает как аргумент три строки — фамилию, имя и отчество. Возвращает как результат их же, но склеенные через пробел.
